@@ -27,6 +27,14 @@ const areaArnd = (xcord, ycord) => {
   return chkAdj
 };
 
+// board.forEach((boardSpot) => {
+//   const neighbors = areaArnd(boardSpot.x, boardSpot.y)
+//   neighbors.forEach((neighbor) => {
+//     if (neighbor[0] === board.x && neighbor[1] === board.y && board.isBomb === true) {
+//       boardSpot.neighborBombs += 1
+//     }
+//   })
+// })
 
 export const genBoard = (numBombs, height, width) => {
   let board = [];
