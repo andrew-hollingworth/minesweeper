@@ -5,6 +5,7 @@ function Header() {
   return (
     <div className='header'>
       <h1>Welcome to the Arcade!</h1>
+      <Nav />
     </div>
   )
 }

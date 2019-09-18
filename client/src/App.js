@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { login, register } from './services/api-helper'
 import { genBoard } from './services/board-helper'
 import About from './components/About'
@@ -58,8 +58,9 @@ class App extends Component{
   }
 
 // ============BOX FUNCTIONS=============== //
-  boxClick = (e) => {
-    console.log('this is boxclick, e, e.target', e);
+  boxClick = (x, y) => {
+    console.log(x);
+    console.log(y);
   }
 
   buildBoard = async () => {
@@ -75,7 +76,6 @@ class App extends Component{
     return (
       <div className="App">
         <Header />
-        <BrowserRouter>
           <Switch>
             <Route path='/about' component={ About }/>
             <Route path='/auth' render={() =>
@@ -92,7 +92,6 @@ class App extends Component{
                   board={this.state.board}
                   boxClick={this.boxClick}/>}/>
           </Switch>
-        </BrowserRouter>
         <Footer />
       </div>
     );
