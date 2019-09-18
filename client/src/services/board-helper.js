@@ -14,7 +14,7 @@ const bombCord = (numBombs, height, width) => {
   return cord
 };
 
-const genBoard = (numBombs, height, width) => {
+export const genBoard = (numBombs, height, width) => {
   let board = [];
   for (let y = 0; y < height; y += 1){
     for(let x = 0; x < width; x += 1){
@@ -36,5 +36,3 @@ const genBoard = (numBombs, height, width) => {
   })
   return board
 }
-
-console.log(genBoard(2, 3, 3));

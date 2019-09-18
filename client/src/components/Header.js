@@ -1,11 +1,11 @@
 import React from 'react'
-import Link from 'react-router-dom'
+import Nav from './Nav'
 
 function Header() {
   return (
-    <React.Fragment>
-      <h3>This is Header Component.</h3>
-    </React.Fragment>
+    <div className='header'>
+      <h1>Welcome to the Arcade!</h1>
+    </div>
   )
 }
 

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import { login, register } from './services/api-helper'
-import Signup from './components/Signup'
-import Footer from './components/Footer'
+import { genBoard } from './services/board-helper'
 import About from './components/About'
+import Footer from './components/Footer'
+import Header from './components/Header'
 import Minesweeper from './components/Minesweeper'
+import Signup from './components/Signup'
+import './App.css';
 
 class App extends Component{
   constructor(props) {
@@ -20,34 +22,11 @@ class App extends Component{
         email: '',
         password: '',
       },
-      board: [
-          {
-            isBomb: false,
-            isRevealed: false,
-            neighborBombs: 1,
-            x: 0,
-            y: 0,
-          }, {
-            isBomb: true,
-            isRevealed: false,
-            neighborBombs: 0,
-            x: 1,
-            y: 0,
-          }, {
-            isBomb: false,
-            isRevealed: false,
-            neighborBombs: 1,
-            x: 2,
-            y: 0,
-          },
-      ]
+      board: [],
     }
   }
 
-  boxClick = (e) => {
-    console.log('this is boxclick, e, e.target', e, e.target);
-  }
-
+// ============USER FUNCTIONS =============== //
   handleLoginChange = (e) => {
     const { name, value } = e.target;
     this.setState((prevState) => ({
@@ -78,10 +57,24 @@ class App extends Component{
     const userData = login(this.state.login)
   }
 
+// ============BOX FUNCTIONS=============== //
+  boxClick = (e) => {
+    console.log('this is boxclick, e, e.target', e);
+  }
+
+  buildBoard = async () => {
+    const board = await genBoard(10, 9, 9);
+    await this.setState({ board })
+  }
+
+  componentDidMount() {
+    this.buildBoard();
+  }
+
   render() {
     return (
       <div className="App">
-        <h1>Welcome to the Arcade!</h1>
+        <Header />
         <BrowserRouter>
           <Switch>
             <Route path='/about' component={ About }/>
@@ -96,8 +89,8 @@ class App extends Component{
             <Route exact path='/'
               render={() =>
                 <Minesweeper
-                  boxClick={this.boxClick}
-                  board={this.state.board}/>}/>
+                  board={this.state.board}
+                  boxClick={this.boxClick}/>}/>
           </Switch>
         </BrowserRouter>
         <Footer />
