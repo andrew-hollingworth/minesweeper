@@ -14,7 +14,7 @@ const bombCord = (numBombs, height, width) => {
   return cord
 };
 
-const areaArnd = (xcord, ycord) => {
+const areaArnd = (xcord, ycord, height, width) => {
   const cord1 = [(xcord - 1), (ycord - 1)];
   const cord2 = [(xcord - 1), (ycord - 0)];
   const cord3 = [(xcord - 1), (ycord + 1)];
@@ -27,14 +27,31 @@ const areaArnd = (xcord, ycord) => {
   return chkAdj
 };
 
-// board.forEach((boardSpot) => {
-//   const neighbors = areaArnd(boardSpot.x, boardSpot.y)
-//   neighbors.forEach((neighbor) => {
-//     if (neighbor[0] === board.x && neighbor[1] === board.y && board.isBomb === true) {
-//       boardSpot.neighborBombs += 1
-//     }
-//   })
-// })
+const placeBombs = (board, bombs) => {
+  bombs.forEach((bomb) => {
+    const currentBomb = board.find((item) => {
+      return item.x === bomb[0] && item.y === bomb[1]
+    })
+    currentBomb.isBomb = true;
+  })
+  return board
+}
+
+// for each of the bombs, get neighbors.
+// for each of those neighbors, increment that neighbors "neighborBombs" by one.
+
+const incrementNeighbors = (board, coordArray, height, width) => {
+  coordArray.forEach((coord) => {
+    const neighbors = areaArnd(coord[0], coord[1], height, width);
+    neighbors.forEach((neighbor) => {
+      const currentNeighbor = board.find((item) => {
+        return item.x === neighbor[0] && item.y === neighbor[1]
+    })
+    console.log(currentNeighbor);
+    currentNeighbor.neighborBombs += 1;
+    })
+  })
+}
 
 export const genBoard = (numBombs, height, width) => {
   let board = [];
@@ -48,14 +65,8 @@ export const genBoard = (numBombs, height, width) => {
       })
     }
   }
-
   let bombs = bombCord(numBombs, height, width)
-  bombs.forEach((coord) => {
-    board.forEach((board) => {
-      if (coord[0] === board.x && coord[1] === board.y) {
-        board.isBomb = true;
-      }
-    })
-  })
-  return board
+  const boardWithBombs = placeBombs(board, bombs);
+  let neighborBoard = incrementNeighbors(boardWithBombs, bombs, height, width)
+  return neighborBoard
 }
