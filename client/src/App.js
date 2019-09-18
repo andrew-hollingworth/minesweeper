@@ -25,6 +25,8 @@ class App extends Component{
       },
       board: [],
       isModal: false,
+      score: 0,
+      timerStatus: false,
     }
   }
 
@@ -60,15 +62,43 @@ class App extends Component{
   }
 
 // ============BOX FUNCTIONS=============== //
-  boxClick = (x, y) => {
-    console.log(x);
-    console.log(y);
+// https://stackoverflow.com/questions/38974744/how-to-detect-click-shift-ctrl-alt-in-reactjs-click-event
+  boxClick = (props, e) => {
+    e.stopPropagation();
+    if (this.state.timerStatus === false) {
+      this.timerClick()
+    }
+    if (e.ctrlKey) {
+      console.debug("Place a flag", props);
+    }
+    if (props.board.isBomb) {
+      this.timerClick();
+    }
   }
 
   buildBoard = async () => {
     const board = await genBoard(10, 9, 9);
     await this.setState({ board })
   }
+
+  // ============TIMER/SCORE FUNCTIONS=============== //
+  // https://wsvincent.com/react-stopwatch/
+  timerClick = () => {
+    this.setState(state => {
+      if (state.timerStatus) {
+        clearInterval(this.timer);
+      } else {
+        const startTime = Date.now() - this.state.score;
+        this.timer = setInterval(() => {
+          this.setState({ score: Date.now() - startTime });
+        });
+      }
+      return { timerStatus: !state.timerStatus };
+    });
+  };
+  timerReset = () => {
+    this.setState({ score: 0, timerStatus: false });
+  };
 
   componentDidMount() {
     this.buildBoard();
@@ -104,11 +134,14 @@ class App extends Component{
                 handleRegisterChange={this.handleRegisterChange}
                 submitLogIn={this.submitLogIn}
                 submitSignUp={this.submitSignUp}/>} /> */}
-            <Route exact path='/'
-              render={() =>
-                <Minesweeper
-                  board={this.state.board}
-                  boxClick={this.boxClick}/>}/>
+            <Route exact path='/' render={() =>
+              <Minesweeper
+                board={this.state.board}
+                boxClick={this.boxClick}
+                score={this.state.score}
+                timerStatus={this.state.timerStatus}
+                timerClick={this.timerClick}
+                timerReset={this.timerReset}/>}/>
           </Switch>
         <Footer />
       </div>
