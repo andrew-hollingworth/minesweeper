@@ -8,6 +8,7 @@ function Modal(props) {
       <Signup
       {...props}
       />
+      <button onClick = {props.modalClick}>x</button>
     </div>
   )
 }

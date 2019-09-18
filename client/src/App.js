@@ -111,6 +111,7 @@ class App extends Component{
   }
 
   render() {
+    console.log(this.state.isModal)
     return (
       <div className="App">
         <Modal
@@ -123,17 +124,9 @@ class App extends Component{
         submitLogIn={this.submitLogIn}
         submitSignUp={this.submitSignUp}
         />
-        <Header />
+        <Header modalClick = {this.modalClick}/>
           <Switch>
             <Route path='/about' component={ About }/>
-            {/* <Route path='/auth' render={() =>
-              <Signup
-                login={this.state.login}
-                register={this.state.register}
-                handleLoginChange={this.handleLoginChange}
-                handleRegisterChange={this.handleRegisterChange}
-                submitLogIn={this.submitLogIn}
-                submitSignUp={this.submitSignUp}/>} /> */}
             <Route exact path='/' render={() =>
               <Minesweeper
                 board={this.state.board}
