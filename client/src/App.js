@@ -7,7 +7,8 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Minesweeper from './components/Minesweeper'
 import Signup from './components/Signup'
-import Modal from './components/Modal'
+import UserModal from './components/UserModal'
+import GameModal from './components/GameModal'
 import './App.css';
 
 class App extends Component{
@@ -24,9 +25,10 @@ class App extends Component{
         password: '',
       },
       board: [],
-      isModal: false,
       score: 0,
       timerStatus: false,
+      isUserModal: true,
+      isGameModal: true,
     }
   }
 
@@ -104,19 +106,24 @@ class App extends Component{
     this.buildBoard();
   }
 
-  modalClick = () => {
+  userModalClick = () => {
     this.setState(prevState => ({
-      isModal: !prevState.isModal
+      isUserModal: !prevState.isUserModal
+    }))
+  }
+
+  gameModalClick = () => {
+    this.setState(prevState => ({
+      isGameModal: !prevState.isGameModal
     }))
   }
 
   render() {
-    console.log(this.state.isModal)
     return (
       <div className="App">
-        <Modal
-        modalClick = {this.modalClick}
-        isModal = {this.state.isModal}
+        <UserModal
+        userModalClick = {this.userModalClick}
+        isUserModal = {this.state.isUserModal}
         login={this.state.login}
         register={this.state.register}
         handleLoginChange={this.handleLoginChange}
@@ -124,10 +131,17 @@ class App extends Component{
         submitLogIn={this.submitLogIn}
         submitSignUp={this.submitSignUp}
         />
-        <Header modalClick = {this.modalClick}/>
+        <GameModal
+        gameModalClick = {this.gameModalClick}
+        isGameModal = {this.state.isGameModal}
+        />
+        <Header
+        userModalClick = {this.userModalClick}
+        gameModalClick = {this.gameModalClick}
+        />
           <Switch>
             <Route path='/about' component={ About }/>
-            <Route exact path='/' render={() =>
+            <Route path='/minesweeper' render={() =>
               <Minesweeper
                 board={this.state.board}
                 boxClick={this.boxClick}
