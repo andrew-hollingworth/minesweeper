@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Nav() {
   return (
     <React.Fragment>
-      <h3>This is Nav</h3>
+        <Link to='/about'>About</Link>
+        <Link to='/auth'>Login/Signup</Link>
     </React.Fragment>
   )
 }

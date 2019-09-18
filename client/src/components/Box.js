@@ -1,10 +1,11 @@
 import React from 'react'
 
-function Box() {
+const Box = (props) => {
+  let bombStatus = props.board.isBomb.toString();
   return (
-    <React.Fragment>
-      <h3>Here is where our boxes will go.</h3>
-    </React.Fragment>
+    <div>
+      <button onClick={(e)=>{props.boxClick(e)}}>{bombStatus}</button>
+    </div>
   )
 }
 
