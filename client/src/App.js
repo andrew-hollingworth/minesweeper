@@ -7,7 +7,6 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Minesweeper from './components/Minesweeper'
 import Signup from './components/Signup'
-import Modal from './components/Modal'
 import './App.css';
 
 class App extends Component{
@@ -24,7 +23,6 @@ class App extends Component{
         password: '',
       },
       board: [],
-      isModal: false,
       score: 0,
       timerStatus: false,
     }
@@ -104,36 +102,20 @@ class App extends Component{
     this.buildBoard();
   }
 
-  modalClick = () => {
-    this.setState(prevState => ({
-      isModal: !prevState.isModal
-    }))
-  }
-
   render() {
     return (
       <div className="App">
-        <Modal
-        modalClick = {this.modalClick}
-        isModal = {this.state.isModal}
-        login={this.state.login}
-        register={this.state.register}
-        handleLoginChange={this.handleLoginChange}
-        handleRegisterChange={this.handleRegisterChange}
-        submitLogIn={this.submitLogIn}
-        submitSignUp={this.submitSignUp}
-        />
         <Header />
           <Switch>
             <Route path='/about' component={ About }/>
-            {/* <Route path='/auth' render={() =>
+            {/*<Route path='/auth' render={() =>
               <Signup
                 login={this.state.login}
                 register={this.state.register}
                 handleLoginChange={this.handleLoginChange}
                 handleRegisterChange={this.handleRegisterChange}
                 submitLogIn={this.submitLogIn}
-                submitSignUp={this.submitSignUp}/>} /> */}
+                submitSignUp={this.submitSignUp}/>} />*/}
             <Route exact path='/' render={() =>
               <Minesweeper
                 board={this.state.board}
