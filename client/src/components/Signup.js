@@ -8,7 +8,7 @@ function Signup(props) {
         <label htmlFor="username">Username:</label>
         <input type="string" name="username" value={props.login.username} onChange={props.handleLoginChange} />
         <label htmlFor="password">Password:</label>
-        <input type="string" name="password" value={props.login.password} onChange={props.handleLoginChange} />
+        <input type="password" name="password" value={props.login.password} onChange={props.handleLoginChange} />
         <button type="submit">Submit!</button>
       </form>
       <h3>Sign Up</h3>
@@ -18,7 +18,7 @@ function Signup(props) {
         <label htmlFor="username">Username:</label>
         <input type="string" name="username" value={props.register.username} onChange={props.handleRegisterChange} />
         <label htmlFor="password">Password:</label>
-        <input type="string" name="password" value={props.register.password} onChange={props.handleRegisterChange} />
+        <input type="password" name="password" value={props.register.password} onChange={props.handleRegisterChange} />
         <button type="submit">Submit!</button>
       </form>
     </React.Fragment>

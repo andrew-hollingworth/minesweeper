@@ -7,6 +7,8 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Minesweeper from './components/Minesweeper'
 import Signup from './components/Signup'
+import UserModal from './components/UserModal'
+import GameModal from './components/GameModal'
 import './App.css';
 
 class App extends Component{
@@ -25,6 +27,8 @@ class App extends Component{
       board: [],
       score: 0,
       timerStatus: false,
+      isUserModal: true,
+      isGameModal: true,
     }
   }
 
@@ -102,21 +106,42 @@ class App extends Component{
     this.buildBoard();
   }
 
+  userModalClick = () => {
+    this.setState(prevState => ({
+      isUserModal: !prevState.isUserModal
+    }))
+  }
+
+  gameModalClick = () => {
+    this.setState(prevState => ({
+      isGameModal: !prevState.isGameModal
+    }))
+  }
+
   render() {
     return (
       <div className="App">
-        <Header />
+        <UserModal
+        userModalClick = {this.userModalClick}
+        isUserModal = {this.state.isUserModal}
+        login={this.state.login}
+        register={this.state.register}
+        handleLoginChange={this.handleLoginChange}
+        handleRegisterChange={this.handleRegisterChange}
+        submitLogIn={this.submitLogIn}
+        submitSignUp={this.submitSignUp}
+        />
+        <GameModal
+        gameModalClick = {this.gameModalClick}
+        isGameModal = {this.state.isGameModal}
+        />
+        <Header
+        userModalClick = {this.userModalClick}
+        gameModalClick = {this.gameModalClick}
+        />
           <Switch>
             <Route path='/about' component={ About }/>
-            {/*<Route path='/auth' render={() =>
-              <Signup
-                login={this.state.login}
-                register={this.state.register}
-                handleLoginChange={this.handleLoginChange}
-                handleRegisterChange={this.handleRegisterChange}
-                submitLogIn={this.submitLogIn}
-                submitSignUp={this.submitSignUp}/>} />*/}
-            <Route exact path='/' render={() =>
+            <Route path='/minesweeper' render={() =>
               <Minesweeper
                 board={this.state.board}
                 boxClick={this.boxClick}

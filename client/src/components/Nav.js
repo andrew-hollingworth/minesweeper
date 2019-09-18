@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-function Nav() {
+function Nav(props) {
   return (
     <React.Fragment>
+      <button onClick = {props.userModalClick}>Login/Signup</button>
       <Link to='/about'>About</Link>
-      <Link to='/auth'>Login/Signup</Link>
-      <Link to='/'>Play Minesweeper!</Link>
+      <button onClick = {props.gameModalClick}>Play Games!</button>
     </React.Fragment>
   )
 }
