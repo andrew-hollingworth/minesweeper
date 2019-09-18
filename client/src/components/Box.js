@@ -4,7 +4,7 @@ const Box = (props) => {
   let bombStatus = props.board.isBomb;
   return (
     <div>
-      <button onClick={()=>{props.boxClick(props.board.x, props.board.y)}}>{(bombStatus ? "true" : "   ")}</button>
+      <button onClick={(e)=>{props.boxClick(props, e)}}>{(bombStatus ? "true" : "   ")}</button>
     </div>
   )
 }
