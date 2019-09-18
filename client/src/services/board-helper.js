@@ -48,6 +48,7 @@ export const genBoard = (numBombs, height, width) => {
       })
     }
   }
+
   let bombs = bombCord(numBombs, height, width)
   bombs.forEach((coord) => {
     board.forEach((board) => {
