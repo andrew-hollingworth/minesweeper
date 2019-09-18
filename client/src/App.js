@@ -70,6 +70,7 @@ class App extends Component{
       console.debug("Place a flag", props);
     }
     if (props.board.isBomb) {
+      console.log('game over');
       this.timerClick();
     }
   }
