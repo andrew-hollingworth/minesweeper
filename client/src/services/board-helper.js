@@ -40,17 +40,19 @@ const placeBombs = (board, bombs) => {
 // for each of the bombs, get neighbors.
 // for each of those neighbors, increment that neighbors "neighborBombs" by one.
 
-const incrementNeighbors = (board, coordArray, height, width) => {
-  coordArray.forEach((coord) => {
-    const neighbors = areaArnd(coord[0], coord[1], height, width);
+const incrementNeighbors = (board, bombs, height, width) => {
+  bombs.forEach((coord) => {
+    const neighbors = areaArnd(coord[0], coord[1]);
     neighbors.forEach((neighbor) => {
-      const currentNeighbor = board.find((item) => {
-        return item.x === neighbor[0] && item.y === neighbor[1]
-    })
-    console.log(currentNeighbor);
-    currentNeighbor.neighborBombs += 1;
+      if ((neighbor[0] >= 0 && neighbor[0] <= (width - 1)) && (neighbor[1] >= 0 && neighbor[1] <= (height - 1))) {
+        const currentNeighbor = board.find((item) => {
+          return item.x === neighbor[0] && item.y === neighbor[1]
+        })
+      currentNeighbor.neighborBombs += 1;
+      }
     })
   })
+  return board
 }
 
 export const genBoard = (numBombs, height, width) => {
