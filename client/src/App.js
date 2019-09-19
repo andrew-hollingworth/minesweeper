@@ -78,19 +78,34 @@ class App extends Component{
 
 // ============BOX FUNCTIONS=============== //
 // https://stackoverflow.com/questions/38974744/how-to-detect-click-shift-ctrl-alt-in-reactjs-click-event
+
+  boxStateFunc = (props, boxProperty) => {
+    this.setState(prevState => ({
+      board: prevState.board.map((box, index) => index === props.index ? (
+          {
+            ...box,
+          [boxProperty]: !box[boxProperty]
+          }
+        ) : box)
+      }))
+  }
+
   boxClick = (props, e) => {
-    e.stopPropagation();
     if (this.state.timerStatus === false) {
-      this.timerClick()
-    }
+      this.timerClick();}
     if (e.ctrlKey) {
-      console.log('ctrl click props', props);
-      console.log(e.target);
-    }
-    if (props.board.isBomb) {
-      console.log('game over');
-      this.timerClick();
-    }
+      this.boxStateFunc(props, `isFlag`)
+    } else {
+      if (props.board.isBomb) {
+        console.log('this is a bomb');
+        const bombs = this.state.board.filter( element => element.isBomb );
+        console.log(bombs);
+        bombs.forEach((bomb) => {
+          this.boxStateFunc(bomb, `isRevealed`)
+        })
+        this.timerClick();
+      }
+      }
   }
 
   buildBoard = async () => {

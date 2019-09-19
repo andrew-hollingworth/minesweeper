@@ -63,7 +63,9 @@ export const genBoard = (numBombs, height, width) => {
         isBomb: false,
         isRevealed: false,
         neighborBombs: 0,
-        x, y
+        isFlag: false,
+        x, y,
+        index: (y * height) + x
       })
     }
   }
