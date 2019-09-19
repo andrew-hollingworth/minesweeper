@@ -14,18 +14,22 @@ const bombCord = (numBombs, height, width) => {
   return cord
 };
 
-const areaArnd = (xcord, ycord, height, width) => {
-  const cord1 = [(xcord - 1), (ycord - 1)];
-  const cord2 = [(xcord - 1), (ycord - 0)];
-  const cord3 = [(xcord - 1), (ycord + 1)];
-  const cord4 = [(xcord - 0), (ycord + 1)];
-  const cord5 = [(xcord + 1), (ycord + 1)];
-  const cord6 = [(xcord + 1), (ycord - 0)];
-  const cord7 = [(xcord + 1), (ycord - 1)];
-  const cord8 = [(xcord - 0), (ycord - 1)];
-  const chkAdj = [cord1, cord2, cord3, cord4, cord5, cord6, cord7, cord8];
-  return chkAdj
-};
+const isCoordinateInGrid = (x, y, h, w) => {
+  return (x >= 0 && y >= 0 && x < w && y < h)
+}
+
+const areaArnd = (x, y, h, w) => {
+  const chkAdj = [];
+  for (let j = -1; j <= 1; j += 1) {
+    for (let i = -1; i <= 1; i += 1) {
+      chkAdj.push([(x + i), (y + j)])
+    }
+  }
+  return chkAdj.filter( (coord) => {
+    return isCoordinateInGrid(coord[0], coord[1], h, w)
+  })
+}
+
 
 const placeBombs = (board, bombs) => {
   bombs.forEach((bomb) => {
@@ -41,19 +45,25 @@ const placeBombs = (board, bombs) => {
 // for each of those neighbors, increment that neighbors "neighborBombs" by one.
 
 const incrementNeighbors = (board, bombs, height, width) => {
+  debugger;
   bombs.forEach((coord) => {
-    const neighbors = areaArnd(coord[0], coord[1]);
+    const neighbors = areaArnd(coord[0], coord[1], height, width);
+    debugger;
     neighbors.forEach((neighbor) => {
-      if ((neighbor[0] >= 0 && neighbor[0] <= (width - 1)) && (neighbor[1] >= 0 && neighbor[1] <= (height - 1))) {
-        const currentNeighbor = board.find((item) => {
-          return item.x === neighbor[0] && item.y === neighbor[1]
-        })
+      const currentNeighbor = board.find((item) => {
+        return item.x === neighbor[0] && item.y === neighbor[1]
+      })
+      console.log('bomb:', coord);
+      console.log("neighbor:", currentNeighbor);
       currentNeighbor.neighborBombs += 1;
       }
-    })
+    )
+    debugger;
   })
+
   return board
 }
+
 
 export const genBoard = (numBombs, height, width) => {
   let board = [];
@@ -61,7 +71,7 @@ export const genBoard = (numBombs, height, width) => {
     for(let x = 0; x < width; x += 1){
       board.push({
         isBomb: false,
-        isRevealed: false,
+        isRevealed: true,
         neighborBombs: 0,
         isFlag: false,
         x, y,
@@ -69,8 +79,9 @@ export const genBoard = (numBombs, height, width) => {
       })
     }
   }
+
   let bombs = bombCord(numBombs, height, width)
-  const boardWithBombs = placeBombs(board, bombs);
+  const boardWithBombs = placeBombs(board, bombs, height, width);
   let neighborBoard = incrementNeighbors(boardWithBombs, bombs, height, width)
   return neighborBoard
 }
