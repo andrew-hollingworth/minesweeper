@@ -9,10 +9,36 @@ highscoreController.get('/global', async (req, res) => {
     const scores = await Highscore.findAll({
       limit: 10,
       order: [
-        ['scores', 'DESC'],
+        ['rank', 'ASC'],
       ],
     });
     res.json(scores);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+highscoreController.put('/global/', async (req, res) => {
+  try {
+    const update = await Highscore.findAll({
+      order: [
+        ['scores', 'ASC'],
+      ],
+    });
+    update.forEach(async (score, index) => {
+      await score.update({ rank: index + 1 });
+    });
+    // await Highscore.update({ rank: 1 }, { where: update[0] });
+    // await Highscore.update({ rank: 2 }, { where: update[1] });
+    // await Highscore.update({ rank: 3 }, { where: update[2] });
+    // await Highscore.update({ rank: 4 }, { where: update[3] });
+    // await Highscore.update({ rank: 5 }, { where: update[4] });
+    // await Highscore.update({ rank: 6 }, { where: update[5] });
+    // await Highscore.update({ rank: 7 }, { where: update[6] });
+    // await Highscore.update({ rank: 8 }, { where: update[7] });
+    // await Highscore.update({ rank: 9 }, { where: update[8] });
+    // await Highscore.update({ rank: 10 }, { where: update[9] });
+    res.json(update);
   } catch (e) {
     console.log(e);
   }

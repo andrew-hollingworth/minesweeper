@@ -14,16 +14,16 @@ const seed = async () => {
     });
 
     const highscore1 = await Highscore.create({
-      scores: 100,
+      scores: 60,
     });
     const highscore2 = await Highscore.create({
-      scores: 300,
+      scores: 180,
     });
     const highscore3 = await Highscore.create({
-      scores: 200,
+      scores: 120,
     });
     const highscore4 = await Highscore.create({
-      scores: 400,
+      scores: 240,
     });
 
     await user1.setHighscores([highscore1, highscore2]);

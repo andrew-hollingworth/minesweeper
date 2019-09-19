@@ -23,6 +23,7 @@ class Highscore extends Sequelize.Model {}
 
 Highscore.init({
   scores: Sequelize.INTEGER,
+  rank: Sequelize.INTEGER,
 }, {
   sequelize: db,
   modelName: 'highscores',
