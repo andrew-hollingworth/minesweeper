@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('morgan');
 const userController = require('./controllers/userController');
+const highscoreController = require('./controllers/highscoreController');
 
 const PORT = process.env.PORT || 3001;
 // define the initial variable
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 
 app.use('/auth', userController);
+app.use('/highscores', highscoreController);
 // catch-all:
 app.use((e, req, res, next) => {
   if (e) {
