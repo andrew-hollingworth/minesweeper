@@ -76,6 +76,25 @@ class App extends Component{
     }))
   }
 
+  // ============TIMER/SCORE FUNCTIONS=============== //
+  // https://wsvincent.com/react-stopwatch/
+  timerClick = () => {
+    this.setState(state => {
+      if (state.timerStatus) {
+        clearInterval(this.timer);
+      } else {
+        const startTime = this.state.score
+        this.timer = setInterval(() => {
+          this.setState({ score:  startTime - Date.now()});
+        });
+      }
+      return { timerStatus: !state.timerStatus };
+    });
+  };
+  timerReset = () => {
+    this.setState({ score: 30000, timerStatus: false });
+  };
+
 // ============BOX FUNCTIONS=============== //
 // https://stackoverflow.com/questions/38974744/how-to-detect-click-shift-ctrl-alt-in-reactjs-click-event
 
@@ -104,10 +123,10 @@ class App extends Component{
         })
         this.timerClick();
       } else {
+        this.boxStateFunc(props, `isRevealed`)
         // REVEAL THIS Box
         // IF box has no neighboring bombs,
-          // THEN
-
+          // THE
       }
     }
   }
@@ -116,25 +135,6 @@ class App extends Component{
     const board = await genBoard(10, 9, 9);
     await this.setState({ board })
   }
-
-  // ============TIMER/SCORE FUNCTIONS=============== //
-  // https://wsvincent.com/react-stopwatch/
-  timerClick = () => {
-    this.setState(state => {
-      if (state.timerStatus) {
-        clearInterval(this.timer);
-      } else {
-        const startTime = this.state.score
-        this.timer = setInterval(() => {
-          this.setState({ score:  startTime - Date.now()});
-        });
-      }
-      return { timerStatus: !state.timerStatus };
-    });
-  };
-  timerReset = () => {
-    this.setState({ score: 30000, timerStatus: false });
-  };
 
   componentDidMount() {
     this.buildBoard();

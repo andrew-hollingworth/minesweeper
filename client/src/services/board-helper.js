@@ -1,12 +1,12 @@
 const bombCord = (numBombs, height, width) => {
-  let x = null;
-  let y = null;
   const cord = [];
   for (let i = 0; i < numBombs; i++) {
     while (cord.length === i) {
-      x = Math.floor(Math.random() * height);
-      y = Math.floor(Math.random() * width);
-      if (!cord.includes([x, y])) {
+      const x = Math.floor(Math.random() * (height - 1));
+      const y = Math.floor(Math.random() * (width - 1));
+      if (!(cord.filter((maybeBomb) => {
+        return (maybeBomb[0] === x && maybeBomb[1] === y)
+      }).length)) {
         cord.push([x, y]);
       }
     }
@@ -45,20 +45,18 @@ const placeBombs = (board, bombs) => {
 // for each of those neighbors, increment that neighbors "neighborBombs" by one.
 
 const incrementNeighbors = (board, bombs, height, width) => {
-  debugger;
   bombs.forEach((coord) => {
     const neighbors = areaArnd(coord[0], coord[1], height, width);
-    debugger;
+    console.log('this is neighbors', neighbors, 'for coord', coord, coord[0], coord[1]);
     neighbors.forEach((neighbor) => {
       const currentNeighbor = board.find((item) => {
         return item.x === neighbor[0] && item.y === neighbor[1]
       })
-      console.log('bomb:', coord);
-      console.log("neighbor:", currentNeighbor);
-      currentNeighbor.neighborBombs += 1;
+      if (!currentNeighbor.isBomb) {
+        currentNeighbor.neighborBombs += 1;
+      }
       }
     )
-    debugger;
   })
 
   return board
@@ -71,7 +69,7 @@ export const genBoard = (numBombs, height, width) => {
     for(let x = 0; x < width; x += 1){
       board.push({
         isBomb: false,
-        isRevealed: true,
+        isRevealed: false,
         neighborBombs: 0,
         isFlag: false,
         x, y,
