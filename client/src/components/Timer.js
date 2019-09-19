@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Timer = (props) =>  {
-  const { timerStatus, score } = props;
+  const { score } = props;
   return (
     <div>
-      <p>{score}ms</p>
+      <p className='score'>{score} points</p>
     </div>
   );
 }

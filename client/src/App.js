@@ -25,7 +25,7 @@ class App extends Component{
         password: '',
       },
       board: [],
-      score: 0,
+      score: 30000,
       timerStatus: false,
       isUserModal: true,
       isGameModal: true,
@@ -63,6 +63,19 @@ class App extends Component{
     const userData = login(this.state.login)
   }
 
+// ============MODAL FUNCTIONS=============== //
+  userModalClick = () => {
+    this.setState(prevState => ({
+      isUserModal: !prevState.isUserModal
+    }))
+  }
+
+  gameModalClick = () => {
+    this.setState(prevState => ({
+      isGameModal: !prevState.isGameModal
+    }))
+  }
+
 // ============BOX FUNCTIONS=============== //
 // https://stackoverflow.com/questions/38974744/how-to-detect-click-shift-ctrl-alt-in-reactjs-click-event
   boxClick = (props, e) => {
@@ -71,7 +84,8 @@ class App extends Component{
       this.timerClick()
     }
     if (e.ctrlKey) {
-      console.debug("Place a flag", props);
+      console.log('ctrl click props', props);
+      console.log(e.target);
     }
     if (props.board.isBomb) {
       console.log('game over');
@@ -91,66 +105,50 @@ class App extends Component{
       if (state.timerStatus) {
         clearInterval(this.timer);
       } else {
-        const startTime = Date.now() - this.state.score;
+        const startTime = this.state.score
         this.timer = setInterval(() => {
-          this.setState({ score: Date.now() - startTime });
+          this.setState({ score:  startTime - Date.now()});
         });
       }
       return { timerStatus: !state.timerStatus };
     });
   };
   timerReset = () => {
-    this.setState({ score: 0, timerStatus: false });
+    this.setState({ score: 30000, timerStatus: false });
   };
 
   componentDidMount() {
     this.buildBoard();
   }
 
-  userModalClick = () => {
-    this.setState(prevState => ({
-      isUserModal: !prevState.isUserModal
-    }))
-  }
-
-  gameModalClick = () => {
-    this.setState(prevState => ({
-      isGameModal: !prevState.isGameModal
-    }))
-  }
-
   render() {
     return (
       <div className="App">
         <UserModal
-        userModalClick = {this.userModalClick}
-        isUserModal = {this.state.isUserModal}
-        login={this.state.login}
-        register={this.state.register}
-        handleLoginChange={this.handleLoginChange}
-        handleRegisterChange={this.handleRegisterChange}
-        submitLogIn={this.submitLogIn}
-        submitSignUp={this.submitSignUp}
-        />
+          userModalClick = {this.userModalClick}
+          isUserModal = {this.state.isUserModal}
+          login={this.state.login}
+          register={this.state.register}
+          handleLoginChange={this.handleLoginChange}
+          handleRegisterChange={this.handleRegisterChange}
+          submitLogIn={this.submitLogIn}
+          submitSignUp={this.submitSignUp}/>
         <GameModal
-        gameModalClick = {this.gameModalClick}
-        isGameModal = {this.state.isGameModal}
-        />
+          gameModalClick = {this.gameModalClick}
+          isGameModal = {this.state.isGameModal}/>
         <Header
-        userModalClick = {this.userModalClick}
-        gameModalClick = {this.gameModalClick}
-        />
-          <Switch>
-            <Route path='/about' component={ About }/>
-            <Route path='/minesweeper' render={() =>
-              <Minesweeper
-                board={this.state.board}
-                boxClick={this.boxClick}
-                score={this.state.score}
-                timerStatus={this.state.timerStatus}
-                timerClick={this.timerClick}
-                timerReset={this.timerReset}/>}/>
-          </Switch>
+          userModalClick = {this.userModalClick}
+          gameModalClick = {this.gameModalClick}/>
+        <Switch>
+          <Route path='/about' component={ About }/>
+          <Route path='/minesweeper' render={() =>
+            <Minesweeper
+              board={this.state.board}
+              boxClick={this.boxClick}
+              score={this.state.score}
+              timerClick={this.timerClick}
+              timerReset={this.timerReset}/>}/>
+        </Switch>
         <Footer />
       </div>
     );

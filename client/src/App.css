@@ -1,10 +1,118 @@
 * {
   box-sizing: border-box;
-  border: 1px solid black;
+  font-family: 'Bangers', cursive;
 }
 
+.henny {
+  font-family: 'Henny Penny', cursive;
+  font-weight: lighter;
+}
+
+.App {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+/* =============== HEADER/NAV ================ */
+.welcome {
+  font-size: 3em;
+  margin: 1em, auto .6  em auto;
+}
+
+.header {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-bottom: 0.7em;
+}
+
+.nav {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.nav-link {
+  font-size: 1.2em;
+}
+
+/* =============== BOARD/GAME ================ */
 .board {
   display: grid;
-  grid-template-columns: repeat(9, 1fr [col-start]);
-  grid-template-rows: repeat(9, 1fr [row-start]);
+  grid-template-columns: repeat(9, 2.5em [col-start]);
+  grid-template-rows: repeat(9, 2.5em [row-start]);
+}
+
+.box-button {
+  background-color: #dbb48c;
+  border-right: 3px solid #654321;
+  border-bottom: 3px solid #654321;
+  border-left: 3px solid #a37d53;
+  border-top: 3px solid #a37d53;
+  height: 100%;
+  width: 100%;
+}
+
+.fa-cookie-bite {
+  border: none;
+  font-size: 2em;
+  color: #654321;
+}
+
+.bomb-button {
+  background-color: #45ad00;
+  border-right: 3px solid #4b752f;
+  border-bottom: 3px solid #4b752f;
+  border-left: 3px solid #abde8a;
+  border-top: 3px solid #abde8a;
+  height: 100%;
+  width: 100%;
+}
+
+.fa-skull-crossbones {
+  border: none;
+  font-size: 2em;
+  color: #1a4200;
+}
+
+.grimace-button {
+  background-color: #ffc800;
+  border-right: 3px solid #c99628;
+  border-bottom: 3px solid #c99628;
+  border-left: 3px solid #ffe57d;
+  border-top: 3px solid #ffe57d;
+  height: 100%;
+  width: 100%;
+}
+
+.fa-grimace {
+  border: none;
+  font-size: 2em;
+  color: #473800;
+}
+
+.game-container {
+  border: 1px solid #a3a3a3;
+  border-radius: 3em;
+  display: grid;
+  width: 90%;
+  text-align: center;
+  justify-items: center;
+  padding: .7em 0 2em 0
+}
+
+.game-title {
+  margin: 0;
+}
+
+.instructions {
+  margin: 0 auto;
+  font-size: 0.8em;
+}
+
+.score {
+  font-size: 2em;
+  margin: 0.3em;
 }
