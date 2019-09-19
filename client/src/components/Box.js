@@ -12,7 +12,7 @@ const Box = (props) => {
         {props.board.isRevealed ? `${props.board.isBomb ? `bomb-button` : `box-button`}` : `${props.board.isFlag ? `grimace-button` : `box-button`}`}
         onClick={(e)=>{props.boxClick(props, e)}}>
 
-        {props.board.isRevealed ? props.board.neighborBombs : <i className={props.board.isRevealed ? `${props.board.isBomb ? `fas fa-skull-crossbones` : `fas fa-cookie-bite`}` : `${props.board.isFlag ? `far fa-grimace` : `fas fa-cookie-bite`}`}></i> }
+        {props.board.isRevealed ? (props.board.neighborBombs ? props.board.neighborBombs : '') : <i className={props.board.isRevealed ? `${props.board.isBomb ? `fas fa-skull-crossbones` : `fas fa-cookie-bite`}` : `${props.board.isFlag ? `far fa-grimace` : `fas fa-cookie-bite`}`}></i> }
 
       </button>
     </div>

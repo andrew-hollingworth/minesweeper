@@ -18,7 +18,7 @@ const isCoordinateInGrid = (x, y, h, w) => {
   return (x >= 0 && y >= 0 && x < w && y < h)
 }
 
-const areaArnd = (x, y, h, w) => {
+export const areaArnd = (x, y, h, w) => {
   const chkAdj = [];
   for (let j = -1; j <= 1; j += 1) {
     for (let i = -1; i <= 1; i += 1) {
@@ -47,7 +47,6 @@ const placeBombs = (board, bombs) => {
 const incrementNeighbors = (board, bombs, height, width) => {
   bombs.forEach((coord) => {
     const neighbors = areaArnd(coord[0], coord[1], height, width);
-    console.log('this is neighbors', neighbors, 'for coord', coord, coord[0], coord[1]);
     neighbors.forEach((neighbor) => {
       const currentNeighbor = board.find((item) => {
         return item.x === neighbor[0] && item.y === neighbor[1]
@@ -58,10 +57,8 @@ const incrementNeighbors = (board, bombs, height, width) => {
       }
     )
   })
-
   return board
 }
-
 
 export const genBoard = (numBombs, height, width) => {
   let board = [];

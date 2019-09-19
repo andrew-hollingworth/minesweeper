@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { login, register } from './services/api-helper'
-import { genBoard } from './services/board-helper'
+import { genBoard, areaArnd } from './services/board-helper'
 import About from './components/About'
 import Footer from './components/Footer'
 import Header from './components/Header'
@@ -25,7 +25,7 @@ class App extends Component{
         password: '',
       },
       board: [],
-      score: 30000,
+      score: 0,
       timerStatus: false,
       isUserModal: true,
       isGameModal: true,
@@ -85,14 +85,14 @@ class App extends Component{
       } else {
         const startTime = this.state.score
         this.timer = setInterval(() => {
-          this.setState({ score:  startTime - Date.now()});
+          this.setState({score: Date.now() - startTime});
         });
       }
       return { timerStatus: !state.timerStatus };
     });
   };
   timerReset = () => {
-    this.setState({ score: 30000, timerStatus: false });
+    this.setState({ score: 0, timerStatus: false });
   };
 
 // ============BOX FUNCTIONS=============== //
@@ -106,7 +106,51 @@ class App extends Component{
           [boxProperty]: !box[boxProperty]
           }
         ) : box)
+    }))
+  }
+
+  reveal = (props, board) => {
+    this.setState(prevState => ({
+      board: prevState.board.map((box, index) => index === props.index ? (
+        {
+          ...box,
+        isRevealed: true
+        }
+      ) : box)
+    }))
+  }
+
+  revealNeighbors = (x, y, tile, board) => {
+    const updatedBoard = this.someBullShit(x, y, tile, board)
+    this.setState({
+      board: updatedBoard
+    })
+  }
+
+  checkNeighbor = (x, y, tile, board) => {
+    let neighbors = areaArnd(x, y, 9, 9);
+    neighbors = neighbors.map((neighbor) => {
+      return this.state.board.find((item) => {
+        return item.x === neighbor[0] && item.y === neighbor[1]
+      })
+    });
+    neighbors = neighbors.filter(space => !space.isRevealed);
+    neighbors.forEach(currentNeighbor => {
+      currentNeighbor.isRevealed = true;
+      this.setState(prevState => ({
+        board: prevState.board.map((box, index) => index === currentNeighbor.index ? currentNeighbor : box)
       }))
+      if (currentNeighbor.neighborBombs === 0) {
+        this.checkNeighbor(currentNeighbor.x, currentNeighbor.y, currentNeighbor, board)
+      }
+    })
+  }
+
+  revealFunc = (x, y, tile, board) => {
+    this.reveal(tile, board)
+    if (tile.neighborBombs === 0) {
+      this.checkNeighbor(x, y, tile, board)
+    }
   }
 
   boxClick = (props, e) => {
@@ -117,19 +161,15 @@ class App extends Component{
     } else {
       if (props.board.isBomb) {
         const bombs = this.state.board.filter( element => element.isBomb );
-        console.log(bombs);
         bombs.forEach((bomb) => {
           this.boxStateFunc(bomb, `isRevealed`)
         })
         this.timerClick();
-      } else {
-        this.boxStateFunc(props, `isRevealed`)
-        // REVEAL THIS Box
-        // IF box has no neighboring bombs,
-          // THE
+      } else if (!props.board.isRevealed) {
+        this.revealFunc(props.board.x, props.board.y, props.board, this.state.board)
+      }
       }
     }
-  }
 
   buildBoard = async () => {
     const board = await genBoard(10, 9, 9);
