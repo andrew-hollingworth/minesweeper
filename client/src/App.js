@@ -80,17 +80,17 @@ class App extends Component{
   // https://wsvincent.com/react-stopwatch/
   timerClick = () => {
     this.setState(state => {
-      if (state.timerStatus) {
-        clearInterval(this.timer);
-      } else {
-        const startTime = this.state.score
-        this.timer = setInterval(() => {
-          this.setState({score: Date.now() - startTime});
-        });
-      }
-      return { timerStatus: !state.timerStatus };
-    });
-  };
+        if (state.timerStatus) {
+          clearInterval(this.timer);
+        } else {
+          const startTime = Date.now() - this.state.score;
+          this.timer = setInterval(() => {
+            this.setState({ score: Date.now() - startTime });
+          });
+        }
+        return { timerStatus: !state.status };
+      });
+    };
   timerReset = () => {
     this.setState({ score: 0, timerStatus: false });
   };
