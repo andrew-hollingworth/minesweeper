@@ -97,15 +97,19 @@ class App extends Component{
       this.boxStateFunc(props, `isFlag`)
     } else {
       if (props.board.isBomb) {
-        console.log('this is a bomb');
         const bombs = this.state.board.filter( element => element.isBomb );
         console.log(bombs);
         bombs.forEach((bomb) => {
           this.boxStateFunc(bomb, `isRevealed`)
         })
         this.timerClick();
+      } else {
+        // REVEAL THIS Box
+        // IF box has no neighboring bombs,
+          // THEN
+
       }
-      }
+    }
   }
 
   buildBoard = async () => {
