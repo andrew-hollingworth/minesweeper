@@ -153,6 +153,8 @@ class App extends Component{
   }
 
   boxClick = (props, e) => {
+    e.stopPropogation()
+    console.log('e', e);
     if (this.state.timerStatus === false) {
       this.timerClick();}
     if ( e.ctrlKey ) {

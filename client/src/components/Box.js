@@ -10,7 +10,7 @@ const Box = (props) => {
     <div className='box'>
       <button className=
         {props.board.isRevealed ? `${props.board.isBomb ? `bomb-button` : `box-button`}` : `${props.board.isFlag ? `grimace-button` : `box-button`}`}
-        onClick={(e)=>{ props.boxClick(props, e) }}>
+        onClick={(e) => { props.boxClick(props, e) }}>
         {props.board.isRevealed ? (props.board.neighborBombs ? props.board.neighborBombs : props.board.isBomb ? <i className='fas fa-skull-crossbones'></i> : '') : <i className={props.board.isRevealed ? `${props.board.isBomb ? `fas fa-skull-crossbones` : `fas fa-cookie-bite`}` : `${props.board.isFlag ? `far fa-grimace` : `fas fa-cookie-bite`}`}></i> }
 
       </button>
