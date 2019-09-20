@@ -8,7 +8,7 @@ function Minesweeper (props) {
       <h1 className='henny game-title'>Munch-a-Cookie</h1>
       <h4 className='henny instructions'>Click a cookie to munch it, but watch out for poison cookies!</h4>
       <h4 className='henny instructions'>It's like Minesweeper, except more delicious.</h4>
-      <h4 className='henny instructions'>Use CTRL+click to mark poison cookies.</h4>
+      <h4 className='henny instructions'>Use SHIFT+click to mark poison cookies.</h4>
       <h4 className='henny instructions'>The goal is to get the lowest score possible!</h4>
       <h4 className='henny instructions'>Like golf. Sort of.</h4>
       <Timer
