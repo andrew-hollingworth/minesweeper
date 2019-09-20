@@ -4,7 +4,17 @@ const { User, Highscore } = require('../models');
 const highscoreController = express();
 
 // Route for global scores
-highscoreController.get('/global', async (req, res) => {
+
+highscoreController.get('/global/user', async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+highscoreController.get('/global/', async (req, res) => {
   try {
     const scores = await Highscore.findAll({
       limit: 10,

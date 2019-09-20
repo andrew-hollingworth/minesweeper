@@ -1,11 +1,14 @@
 .game-box {
-  background-color: red;
+  background-color: lightgrey;
+  text-align: center;
+  border: 1px solid grey;
+  border-radius: 1em;
+  display: grid;
   position: absolute;
-  height: 40%;
-  width:  80%;
+  top: 9em;
+  width: 90%;
+  height: 35%;
   z-index: 2;
-  top: 50px;
-  left: 50px;
 }
 
 .showing-modal {
