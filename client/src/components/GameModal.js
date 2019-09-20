@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import gamemodal from './gamemodal.css'
+import './gamemodal.css'
 
 function GameModal(props) {
   return (
