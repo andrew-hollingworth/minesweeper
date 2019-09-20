@@ -9,6 +9,7 @@ import Minesweeper from './components/Minesweeper'
 import Signup from './components/Signup'
 import UserModal from './components/UserModal'
 import GameModal from './components/GameModal'
+import Highscore from './components/Highscore'
 import './App.css';
 
 class App extends Component{
@@ -149,6 +150,7 @@ class App extends Component{
               timerClick={this.timerClick}
               timerReset={this.timerReset}/>}/>
         </Switch>
+        <Highscore />
         <Footer />
       </div>
     );
