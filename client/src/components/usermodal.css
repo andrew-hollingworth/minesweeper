@@ -60,3 +60,45 @@
   font-size: 1em;
   border: 1px solid grey;
 }
+
+
+/* @media only screen and (min-width: 845px) {
+  body {
+    background-color: lightblue;
+  }
+
+  .login-title {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    font-size: 1.7em;
+    margin: 0.3em;
+  }
+  .login-form{
+    grid-column: 1 / 3;
+    grid-row: 2 / end;
+    font-size: 1.5em;
+    align-self: end;
+  }
+
+  .signup-title {
+    grid-column: 3 / 5;
+    grid-row: 1 / 2;
+    font-size: 1.7em;
+    margin: 0.3em;
+  }
+  .signup-form {
+    grid-column: 3 / 5;
+    grid-row: 2 / end;
+    font-size: 1.5em;
+    align-self: end;
+  }
+
+  .signup-field {
+    font-size: 1em;
+  }
+
+  .signup-submit {
+    font-size: 1em;
+    border: 1px solid grey;
+  }
+} */
