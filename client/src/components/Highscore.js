@@ -73,7 +73,7 @@ class Highscore extends React.Component {
           {globalShow}
         </div>
         <div className='user'>
-        {this.state.globalUser && this.state.globalUser.highscores[0].scores}
+        {this.state.globalUser && this.state.globalUser.highscores.length && this.state.globalUser.highscores[0].scores}
         </div>
       </div>
     )

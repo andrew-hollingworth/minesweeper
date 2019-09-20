@@ -183,7 +183,9 @@ class App extends Component{
     if (win === 11) {
       this.timerClick();
       this.winState('win');
-      // this.scorePost(id, this.state.score)
+      if (this.state.currentUser.length) {
+        this.scorePost(this.state.currentUser.id, this.state.score)
+      }
     }
     }
 
@@ -236,8 +238,7 @@ class App extends Component{
               resetGame={this.resetGame}/>}/>
         </Switch>
         <Highscore
-        currentUser={this.state.currentUser}
-        />
+          currentUser={this.state.currentUser}/>
         <Footer />
       </div>
     );
