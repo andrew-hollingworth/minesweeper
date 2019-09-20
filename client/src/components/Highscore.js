@@ -40,12 +40,14 @@ class Highscore extends React.Component {
 
     let globalShow = this.state.globalHighscore.map((d, i) => {
       let thisUser = this.state.user.filter( user => user.id === d.userId)
+      console.log(thisUser)
       return (
         <div key={i}>
           <p className='scoreboard-rank'>{d.rank}</p> <p className='scoreboard-username'>{thisUser[0].username}</p> <p className='scoreboard-score'>{d.scores}</p>
         </div>
       )
     })
+
     return (
       <div className='scoreboard'>
         <div className='global'>
