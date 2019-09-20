@@ -121,14 +121,13 @@
   margin: 0.3em;
 }
 /* =============== FOOTER ================ */
-.scoreboard {
+.global {
   display: grid;
   grid-template-columns: repeat(3, 1fr [col-start]);
-  grid-template-rows: repeat(11, 1fr [row-start])
+  grid-gap: 10px;
 }
 .scoreboard-score {
   grid-column: 3 / 4;
-  grid-row: auto
 }
 .scoreboard-rank {
   grid-column: 1 / 2;

@@ -16,8 +16,8 @@ userController.post('/register', async (req, res, next) => {
     const { username, email, password } = req.body;
     const password_digest = await hashPassword(password);
     const user = await User.create({ username, email, password_digest });
-    const token = buildAuthResponse(user);
-    res.json({ user, token });
+    const responseData = buildAuthResponse(user);
+    res.json(responseData);
   } catch (e) {
     next(e);
   }
@@ -30,8 +30,8 @@ userController.post('/login', async (req, res, next) => {
       where: { username },
     });
     if (await checkPassword(password, user.password_digest)) {
-      const token = buildAuthResponse(user);
-      res.json({ user, token });
+      const responseData = buildAuthResponse(user);
+      res.json(responseData);
     } else {
       res.status(401).send('Invalid Credentials');
     }

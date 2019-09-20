@@ -25,6 +25,7 @@ class App extends Component{
         email: '',
         password: '',
       },
+      currentUser: [],
       board: [],
       score: 0,
       timerStatus: false,
@@ -58,11 +59,13 @@ class App extends Component{
   submitSignUp = async (e) => {
     e.preventDefault();
     const userData = register(this.state.register);
+    await this.setState({ currentUser: userData})
   }
 
   submitLogIn = async (e) => {
     e.preventDefault();
-    const userData = login(this.state.login)
+    const userData = await login(this.state.login)
+    this.setState({ currentUser: userData})
   }
 
 // ============MODAL FUNCTIONS=============== //
@@ -180,7 +183,9 @@ class App extends Component{
     if (win === 11) {
       this.timerClick();
       this.winState('win');
-      // this.scorePost(id, this.state.score)
+      if (this.state.currentUser.length) {
+        this.scorePost(this.state.currentUser.id, this.state.score)
+      }
     }
     }
 
@@ -233,8 +238,7 @@ class App extends Component{
               resetGame={this.resetGame}/>}/>
         </Switch>
         <Highscore
-          userLog={this.state.login.username}
-          userReg={this.state.register.username}/>
+          currentUser={this.state.currentUser}/>
         <Footer />
       </div>
     );
