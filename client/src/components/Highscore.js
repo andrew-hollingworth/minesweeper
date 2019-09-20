@@ -56,9 +56,11 @@ class Highscore extends React.Component {
     let globalShow = this.state.globalHighscore.map((d, i) => {
       let thisUser = this.state.user.filter( user => user.id === d.userId)
       return (
-        <div key={i}>
-          <p className='scoreboard-rank'>{d.rank}</p> <p className='scoreboard-username'>{thisUser[0].username}</p> <p className='scoreboard-score'>{d.scores}</p>
-        </div>
+        <React.Fragment key={i}>
+          <p className='scoreboard-rank'>{d.rank}</p>
+          <p className='scoreboard-username'>{thisUser[0].username}</p>
+          <p className='scoreboard-score'>{d.scores}</p>
+        </React.Fragment>
       )
     })
     return (
@@ -69,6 +71,7 @@ class Highscore extends React.Component {
         </div>
         <div className='user'>
         {this.state.globalUser && this.state.globalUser.highscores.scores}
+
         </div>
       </div>
     )
