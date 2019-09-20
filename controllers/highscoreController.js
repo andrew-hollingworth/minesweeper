@@ -18,7 +18,7 @@ highscoreController.get('/global', async (req, res) => {
   }
 });
 
-highscoreController.put('/global/', async (req, res) => {
+highscoreController.put('/global', async (req, res) => {
   try {
     const update = await Highscore.findAll({
       order: [
@@ -28,16 +28,7 @@ highscoreController.put('/global/', async (req, res) => {
     update.forEach(async (score, index) => {
       await score.update({ rank: index + 1 });
     });
-    // await Highscore.update({ rank: 1 }, { where: update[0] });
-    // await Highscore.update({ rank: 2 }, { where: update[1] });
-    // await Highscore.update({ rank: 3 }, { where: update[2] });
-    // await Highscore.update({ rank: 4 }, { where: update[3] });
-    // await Highscore.update({ rank: 5 }, { where: update[4] });
-    // await Highscore.update({ rank: 6 }, { where: update[5] });
-    // await Highscore.update({ rank: 7 }, { where: update[6] });
-    // await Highscore.update({ rank: 8 }, { where: update[7] });
-    // await Highscore.update({ rank: 9 }, { where: update[8] });
-    // await Highscore.update({ rank: 10 }, { where: update[9] });
+
     res.json(update);
   } catch (e) {
     console.log(e);
@@ -46,8 +37,9 @@ highscoreController.put('/global/', async (req, res) => {
 
 highscoreController.get('/global/:userid/', async (req, res) => {
   try {
-    const scores = await Highscore.findAll({
-      where: { user_id: req.params.userid },
+    const scores = await User.findAll({
+      where: { username: req.params.userid },
+      include: [Highscore],
     });
     const sortScores = scores.sort((a, b) => b.dataValues.scores - a.dataValues.scores);
     res.json(sortScores[0]);
@@ -61,7 +53,7 @@ highscoreController.get('/global/:userid/', async (req, res) => {
 highscoreController.get('/users/:userid', async (req, res) => {
   try {
     const scores = await User.findAll({
-      where: { id: req.params.userid },
+      where: { username: req.params.userid },
       include: [Highscore],
     });
     res.json(scores);
@@ -101,5 +93,6 @@ highscoreController.get('/users/:userid/times', async (req, res) => {
     console.log(e);
   }
 });
+
 
 module.exports = highscoreController;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import { login, register } from './services/api-helper'
+import { login, register, allUsers } from './services/api-helper'
 import { genBoard, areaArnd } from './services/board-helper'
 import About from './components/About'
 import Footer from './components/Footer'
@@ -8,6 +9,7 @@ import Header from './components/Header'
 import Minesweeper from './components/Minesweeper'
 import UserModal from './components/UserModal'
 import GameModal from './components/GameModal'
+import Highscore from './components/Highscore'
 import './App.css';
 
 class App extends Component{
@@ -226,6 +228,10 @@ class App extends Component{
               win={this.state.win}
               resetGame={this.resetGame}/>}/>
         </Switch>
+        <Highscore
+        userLog={this.state.login.username}
+        userReg={this.state.register.username}
+        />
         <Footer />
       </div>
     );
