@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import { login, register, allUsers } from './services/api-helper'
+import { login, register, allUsers, addScores } from './services/api-helper'
 import { genBoard, areaArnd } from './services/board-helper'
 import About from './components/About'
 import Footer from './components/Footer'
@@ -154,12 +154,14 @@ class App extends Component{
     }));
   }
 
+  scorePost = async (id, score) => {
+    await addScores(id, score)
+  }
+
   boxClick = (props, e) => {
-    e.stopPropogation()
-    console.log('e', e);
     if (this.state.timerStatus === false) {
       this.timerClick();}
-    if ( e.ctrlKey ) {
+    if ( e.shiftKey ) {
       this.boxStateFunc(props, `isFlag`)
     } else {
       if (props.board.isBomb) {
@@ -177,6 +179,7 @@ class App extends Component{
     if (win === 11) {
       this.timerClick();
       this.winState('win');
+      this.addScores(id, this.state.score)
     }
     }
 
@@ -229,9 +232,8 @@ class App extends Component{
               resetGame={this.resetGame}/>}/>
         </Switch>
         <Highscore
-        userLog={this.state.login.username}
-        userReg={this.state.register.username}
-        />
+          userLog={this.state.login.username}
+          userReg={this.state.register.username}/>
         <Footer />
       </div>
     );

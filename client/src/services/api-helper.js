@@ -22,13 +22,18 @@ export const login = async (formData) => {
 
 export const showHighScore = async () => {
   const resp = await axios.get(`${BASE_URL}/highscores/global`);
-  return resp.data;
+  return (resp.data);
 };
 
 export const updateHighScores = async () => {
   const resp = await axios.put(`${BASE_URL}/highscores/global`);
   return resp.data;
 };
+
+export const users = async () => {
+  const resp = await axios.get(`${BASE_URL}/highscores/global/user`)
+  return resp.data;
+}
 
 export const userScores = async (userid) => {
   const resp = await axios.get(`${BASE_URL}/highscores/global/${userid}`);
@@ -40,8 +45,8 @@ export const showUserScores = async (userid) => {
   return resp.data;
 };
 
-export const addScores = async (id) => {
-  const resp = await axios.post(`${BASE_URL}/users/${id}`);
+export const addScores = async (id, scoreData) => {
+  const resp = await axios.post(`${BASE_URL}/highscores/users/${id}`, {scores: scoreData});
   return resp.data;
 };
 
@@ -49,6 +54,7 @@ export const deleteScores = async (scoreid) => {
   const resp = await axios.delete(`${BASE_URL}/scores/${scoreid}`);
   return resp.data;
 };
+
 
 export const recentScores = async (userid) => {
   const resp = await axios.get(`${BASE_URL}/users/${userid}/times`);

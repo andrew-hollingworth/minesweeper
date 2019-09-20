@@ -1,5 +1,5 @@
 import React from 'react'
-import { showHighScore, updateHighScores, userScores, showUserScores, addScores, deleteScores, recentScores } from '../services/api-helper'
+import { showHighScore, updateHighScores, userScores, showUserScores, addScores, deleteScores, recentScores, users } from '../services/api-helper'
 
 class Highscore extends React.Component {
   constructor(props) {
@@ -12,11 +12,13 @@ class Highscore extends React.Component {
       userCreate: [],
       userDelete: [],
       userRecent: [],
+      user: {},
     }
   }
 
   async componentDidMount() {
     let gHighscore = await showHighScore();
+    let usersInfo = await users()
     // let gUpdate = await updateHighScores();
     // let gUser = await userScores(this.props.userLog || this.props.userReg);
     // let uHighscore = await showUserScores(props.username);*
@@ -25,6 +27,7 @@ class Highscore extends React.Component {
     // let uRecent = await recentScores();
     this.setState({
       globalHighscore: gHighscore,
+      user: usersInfo,
       // globalUpdate: gUpdate,
       // globalUser: gUser,
       // userScores: uHighscore,
@@ -36,24 +39,17 @@ class Highscore extends React.Component {
   render() {
 
     let globalShow = this.state.globalHighscore.map((d, i) => {
+      let thisUser = this.state.user.filter( user => user.id === d.userId)
       return (
         <div key={i}>
-          {d.rank}
-          {d.userId}
-          {d.scores}
-        </div>
-      )
-    })
-    let globalUser = this.state.globalUser.map((d, i) => {
-      return (
-        <div key={i}>
-          {d.username}
+          <p>{d.rank} {thisUser[0].username} {d.scores}</p>
         </div>
       )
     })
     return (
       <div>
         <div className='global'>
+          <p> Rank UserID Score</p>
           {globalShow}
         </div>
         <div className='user'>
