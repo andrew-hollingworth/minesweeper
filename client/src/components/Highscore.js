@@ -18,21 +18,15 @@ class Highscore extends React.Component {
   async componentDidMount() {
     let gHighscore = await showHighScore();
     let gUser = await userScores(this.props.currentUser.username);
-    let usersInfo = await users()
-    // let gUpdate = await updateHighScores();
-    // let gUser = await userScores(this.props.userLog || this.props.userReg);
+    let usersInfo = await users();
     // let uHighscore = await showUserScores(props.username);*
-    // let uAdd = await addScores();
     // let uDelete = await deleteScores();*
     // let uRecent = await recentScores();
     this.setState({
       globalHighscore: gHighscore,
       globalUser: gUser,
       user: usersInfo,
-      // globalUpdate: gUpdate,
-      // globalUser: gUser,
       // userScores: uHighscore,
-      // userCreate: uAdd,
       // userDelete: uDelete,
       // userRecent: uRecent,
     })
@@ -42,13 +36,14 @@ class Highscore extends React.Component {
     if (prevProps.currentUser !== this.props.currentUser) {
       let gHighscore = await showHighScore();
       let gUser = await userScores(this.props.currentUser.username);
+      let usersInfo = await users()
       // let uHighscore = await showUserScores(props.username);*
-      // let uAdd = await addScores();
       // let uDelete = await deleteScores();*
       // let uRecent = await recentScores();
       this.setState({
         globalHighscore: gHighscore,
         globalUser: gUser,
+        user: usersInfo,
         // userScores: uHighscore,
         // userCreate: uAdd,
         // userDelete: uDelete,
@@ -75,7 +70,8 @@ class Highscore extends React.Component {
           {globalShow}
         </div>
         <div className='user'>
-        {this.state.globalUser && this.state.globalUser.highscores.length && this.state.globalUser.highscores[0].scores}
+        {this.state.globalUser && this.state.globalUser.highscores.scores}
+
         </div>
       </div>
     )
