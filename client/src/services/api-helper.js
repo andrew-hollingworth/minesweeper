@@ -8,7 +8,7 @@ const api = axios.create({
 
 export const register = async (formData) => {
   const resp = await api.post('/auth/register', formData);
-
+  debugger;
   localStorage.setItem('authToken', resp.data.token);
   api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
 
@@ -16,7 +16,9 @@ export const register = async (formData) => {
 };
 
 export const login = async (formData) => {
-  const resp = await api.post('./auth/login', formData);
+  const resp = await api.post('/auth/login', formData);
+  localStorage.setItem('authToken', resp.data.token);
+  api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
   return resp.data.user;
 };
 
@@ -36,7 +38,7 @@ export const users = async () => {
 }
 
 export const userScores = async (userid) => {
-  const resp = await axios.get(`${BASE_URL}/highscores/global/${userid}`);
+  const resp = await axios.get(`${BASE_URL}/highscores/global/${userid}`, userid);
   return resp.data;
 };
 
