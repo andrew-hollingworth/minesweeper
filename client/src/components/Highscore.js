@@ -42,17 +42,15 @@ class Highscore extends React.Component {
       let thisUser = this.state.user.filter( user => user.id === d.userId)
       return (
         <div key={i}>
-          <p>{d.rank} {thisUser[0].username} {d.scores}</p>
+          <p className='scoreboard-rank'>{d.rank}</p> <p className='scoreboard-username'>{thisUser[0].username}</p> <p className='scoreboard-score'>{d.scores}</p>
         </div>
       )
     })
     return (
-      <div>
+      <div className='scoreboard'>
         <div className='global'>
-          <p> Rank UserID Score</p>
+          <p className='scoreboard-rank'>Rank</p> <p className='scoreboard-username'>Username</p> <p className='scoreboard-score'>Score</p>
           {globalShow}
-        </div>
-        <div className='user'>
         </div>
       </div>
     )
