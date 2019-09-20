@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import { login, register,  } from './services/api-helper'
+import { login, register, allUsers, addScores, updateHighScores } from './services/api-helper'
 import { genBoard, areaArnd } from './services/board-helper'
 import About from './components/About'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Minesweeper from './components/Minesweeper'
-import Signup from './components/Signup'
 import UserModal from './components/UserModal'
 import GameModal from './components/GameModal'
 import Highscore from './components/Highscore'
@@ -158,10 +157,15 @@ class App extends Component{
     }));
   }
 
+  scorePost = async (id, score) => {
+    await addScores(id, score);
+    await updateHighScores();
+  }
+
   boxClick = (props, e) => {
     if (this.state.timerStatus === false) {
       this.timerClick();}
-    if (e.ctrlKey) {
+    if ( e.shiftKey ) {
       this.boxStateFunc(props, `isFlag`)
     } else {
       if (props.board.isBomb) {
@@ -170,6 +174,7 @@ class App extends Component{
           this.boxStateFunc(bomb, `isRevealed`)
         })
         this.timerClick();
+        this.winState('lose');
       } else if (!props.board.isRevealed) {
         this.revealFunc(props.board.x, props.board.y, props.board, this.state.board)
       }
@@ -178,6 +183,7 @@ class App extends Component{
     if (win === 11) {
       this.timerClick();
       this.winState('win');
+      // this.scorePost(id, this.state.score)
     }
     }
 
@@ -186,6 +192,16 @@ class App extends Component{
     await this.setState({ board })
   }
 
+  resetGame = () => {
+      const board = genBoard(10, 9, 9);
+      this.setState({ board })
+      if (this.state.timerStatus) {
+        this.timerClick();
+      }
+      this.timerReset()
+      this.winState(null)
+    }
+
   componentDidMount() {
     this.buildBoard();
   }
@@ -193,6 +209,9 @@ class App extends Component{
   render() {
     return (
       <div className="App">
+        <Header
+          userModalClick = {this.userModalClick}
+          gameModalClick = {this.gameModalClick}/>
         <UserModal
           userModalClick = {this.userModalClick}
           isUserModal = {this.state.isUserModal}
@@ -205,9 +224,6 @@ class App extends Component{
         <GameModal
           gameModalClick = {this.gameModalClick}
           isGameModal = {this.state.isGameModal}/>
-        <Header
-          userModalClick = {this.userModalClick}
-          gameModalClick = {this.gameModalClick}/>
         <Switch>
           <Route path='/about' component={ About }/>
           <Route path='/minesweeper' render={() =>
@@ -216,7 +232,8 @@ class App extends Component{
               boxClick={this.boxClick}
               score={this.state.score}
               timerClick={this.timerClick}
-              timerReset={this.timerReset}/>}/>
+              win={this.state.win}
+              resetGame={this.resetGame}/>}/>
         </Switch>
         <Highscore
         currentUser={this.state.currentUser}

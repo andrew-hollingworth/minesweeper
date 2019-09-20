@@ -1,13 +1,62 @@
 .user-box {
-  background-color: green;
+  background-color: lightgrey;
+  text-align: center;
+  border: 1px solid grey;
+  border-radius: 1em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr [col-start]);
+  grid-template-rows: 2em repeat(3, 1fr [row-start]);
   position: absolute;
-  height: 40%;
-  width:  80%;
+  top: 9em;
+  width: 90%;
+  height: 35%;
   z-index: 2;
-  top: 50px;
-  left: 50px;
 }
 
 .showing-modal {
   display: none;
+}
+
+.close {
+  border-radius: 1em;
+  grid-column: 4 / end;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+}
+
+.login-title {
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
+  font-size: 1.7em;
+  margin: 0.3em;
+}
+.login-form{
+  grid-column: 1 / 3;
+  grid-row: 2 / end;
+  font-size: 1.5em;
+  align-self: center;
+}
+
+.signup-title {
+  grid-column: 3 / 5;
+  grid-row: 1 / 2;
+  font-size: 1.7em;
+  margin: 0.3em;
+}
+.signup-form {
+  grid-column: 3 / 5;
+  grid-row: 2 / end;
+  font-size: 1.5em;
+  align-self: center;
+}
+
+.signup-field {
+  font-size: 1em;
+}
+
+.signup-submit {
+  font-size: 1em;
+  border: 1px solid grey;
 }
