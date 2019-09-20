@@ -124,7 +124,7 @@
 .global {
   display: grid;
   grid-template-columns: repeat(3, 1fr [col-start]);
-  grid-template-rows: repeat(11, 1.5em [row-start])
+  grid-gap: 10px;
 }
 .scoreboard-score {
   grid-column: 3 / 4;
@@ -146,10 +146,4 @@
   font-size: 2em;
   font-weight: lighter;
   margin: 0.1em;
-}
-
-@media only screen and (min-width: 845px) {
-  body {
-    background-color: lightblue;
-  }
 }
