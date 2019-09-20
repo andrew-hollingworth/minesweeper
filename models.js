@@ -22,13 +22,15 @@ User.init({
 class Highscore extends Sequelize.Model {}
 
 Highscore.init({
-  scores: Sequelize.STRING,
+  scores: Sequelize.INTEGER,
+  rank: Sequelize.INTEGER,
 }, {
   sequelize: db,
   modelName: 'highscores',
 });
 
-User.belongsToMany(Highscore, { through: 'users_highscores' });
+Highscore.belongsTo(User);
+User.hasMany(Highscore);
 
 module.exports = {
   db,
