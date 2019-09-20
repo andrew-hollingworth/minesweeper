@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import { login, register } from './services/api-helper'
+import { login, register, allUsers } from './services/api-helper'
 import { genBoard, areaArnd } from './services/board-helper'
 import About from './components/About'
 import Footer from './components/Footer'
@@ -172,7 +173,7 @@ class App extends Component{
     }
     let win = this.state.board.filter( element => element.isRevealed === false ).length
     if (win === 11) {
-      this.timerClick();  
+      this.timerClick();
       this.winState('win');
     }
     }
@@ -214,7 +215,10 @@ class App extends Component{
               timerClick={this.timerClick}
               timerReset={this.timerReset}/>}/>
         </Switch>
-        <Highscore />
+        <Highscore
+        userLog={this.state.login.username}
+        userReg={this.state.register.username}
+        />
         <Footer />
       </div>
     );

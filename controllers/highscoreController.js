@@ -18,7 +18,7 @@ highscoreController.get('/global', async (req, res) => {
   }
 });
 
-highscoreController.put('/global/', async (req, res) => {
+highscoreController.put('/global', async (req, res) => {
   try {
     const update = await Highscore.findAll({
       order: [
@@ -37,8 +37,9 @@ highscoreController.put('/global/', async (req, res) => {
 
 highscoreController.get('/global/:userid/', async (req, res) => {
   try {
-    const scores = await Highscore.findAll({
-      where: { user_id: req.params.userid },
+    const scores = await User.findAll({
+      where: { username: req.params.userid },
+      include: [Highscore],
     });
     const sortScores = scores.sort((a, b) => b.dataValues.scores - a.dataValues.scores);
     res.json(sortScores[0]);
@@ -52,7 +53,7 @@ highscoreController.get('/global/:userid/', async (req, res) => {
 highscoreController.get('/users/:userid', async (req, res) => {
   try {
     const scores = await User.findAll({
-      where: { id: req.params.userid },
+      where: { username: req.params.userid },
       include: [Highscore],
     });
     res.json(scores);
@@ -92,5 +93,6 @@ highscoreController.get('/users/:userid/times', async (req, res) => {
     console.log(e);
   }
 });
+
 
 module.exports = highscoreController;

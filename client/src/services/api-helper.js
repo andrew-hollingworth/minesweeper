@@ -26,31 +26,31 @@ export const showHighScore = async () => {
 };
 
 export const updateHighScores = async () => {
-  const resp = await api.put('./highscores/global');
+  const resp = await axios.put(`${BASE_URL}/highscores/global`);
   return resp.data;
 };
 
-export const userScores = async () => {
-  const resp = await api.get('./highscores/global/:userid');
+export const userScores = async (userid) => {
+  const resp = await axios.get(`${BASE_URL}/highscores/global/${userid}`);
   return resp.data;
 };
 
-export const showUserScores = async () => {
-  const resp = await api.get('./user/:userid');
+export const showUserScores = async (userid) => {
+  const resp = axios.get(`${BASE_URL}/user/${userid}`);
   return resp.data;
 };
 
-export const addScore = async () => {
-  const resp = await api.post('./users/:id');
+export const addScores = async (id) => {
+  const resp = await axios.post(`${BASE_URL}/users/${id}`);
   return resp.data;
 };
 
-export const deleteScore = async () => {
-  const resp = await api.delete('./scores/:scoredid');
+export const deleteScores = async (scoreid) => {
+  const resp = await axios.delete(`${BASE_URL}/scores/${scoreid}`);
   return resp.data;
 };
 
-export const recentScore = async () => {
-  const resp = await api.get('./users/:userid/times');
+export const recentScores = async (userid) => {
+  const resp = await axios.get(`${BASE_URL}/users/${userid}/times`);
   return resp.data;
 };
