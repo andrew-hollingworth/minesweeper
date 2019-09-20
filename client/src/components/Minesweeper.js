@@ -18,6 +18,7 @@ function Minesweeper (props) {
           return (
             <Box
               key={i}
+              index={i}
               board={board}
               boxClick={props.boxClick}
             />
