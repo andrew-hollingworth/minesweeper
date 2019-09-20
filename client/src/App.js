@@ -29,6 +29,7 @@ class App extends Component{
       timerStatus: false,
       isUserModal: true,
       isGameModal: true,
+      win: null,
     }
   }
 
@@ -119,14 +120,7 @@ class App extends Component{
       ) : box)
     }))
   }
-
-  revealNeighbors = (x, y, tile, board) => {
-    const updatedBoard = this.someBullShit(x, y, tile, board)
-    this.setState({
-      board: updatedBoard
-    })
-  }
-
+  // THANKS DAVID WHITLATCH
   checkNeighbor = (x, y, tile, board) => {
     let neighbors = areaArnd(x, y, 9, 9);
     neighbors = neighbors.map((neighbor) => {
@@ -153,6 +147,12 @@ class App extends Component{
     }
   }
 
+  winState = (string) => {
+    this.setState((prevState) => ({
+      win: string,
+    }));
+  }
+
   boxClick = (props, e) => {
     if (this.state.timerStatus === false) {
       this.timerClick();}
@@ -168,7 +168,12 @@ class App extends Component{
       } else if (!props.board.isRevealed) {
         this.revealFunc(props.board.x, props.board.y, props.board, this.state.board)
       }
-      }
+    }
+    let win = this.state.board.filter( element => element.isRevealed === false ).length
+    if (win === 11) {
+      this.timerClick();  
+      this.winState('win');
+    }
     }
 
   buildBoard = async () => {
