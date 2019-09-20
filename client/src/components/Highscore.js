@@ -1,13 +1,12 @@
 import React from 'react'
-import { showHighScore, updateHighScores, userScores, showUserScores, addScores, deleteScores, recentScores } from '../services/api-helper'
+import { showHighScore, userScores, showUserScores, addScores, deleteScores, recentScores } from '../services/api-helper'
 
 class Highscore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       globalHighscore: [],
-      globalUpdate: [],
-      globalUser: [],
+      globalUser: null,
       userScores: [],
       userCreate: [],
       userDelete: [],
@@ -17,24 +16,42 @@ class Highscore extends React.Component {
 
   async componentDidMount() {
     let gHighscore = await showHighScore();
-    // let gUpdate = await updateHighScores();
-    // let gUser = await userScores(this.props.userLog || this.props.userReg);
+    let gUser = await userScores(this.props.currentUser.username);
     // let uHighscore = await showUserScores(props.username);*
     // let uAdd = await addScores();
     // let uDelete = await deleteScores();*
     // let uRecent = await recentScores();
     this.setState({
       globalHighscore: gHighscore,
-      // globalUpdate: gUpdate,
-      // globalUser: gUser,
+      globalUser: gUser,
       // userScores: uHighscore,
       // userCreate: uAdd,
       // userDelete: uDelete,
       // userRecent: uRecent,
     })
   }
-  render() {
 
+  async componentWillUpdate(prevProps) {
+    if (prevProps.currentUser !== this.props.currentUser) {
+      let gHighscore = await showHighScore();
+      let gUser = await userScores(this.props.currentUser.username);
+      // let uHighscore = await showUserScores(props.username);*
+      // let uAdd = await addScores();
+      // let uDelete = await deleteScores();*
+      // let uRecent = await recentScores();
+      this.setState({
+        globalHighscore: gHighscore,
+        globalUser: gUser,
+        // userScores: uHighscore,
+        // userCreate: uAdd,
+        // userDelete: uDelete,
+        // userRecent: uRecent,
+      })
+    }
+  }
+
+  render() {
+    console.log(this.state.globalUser)
     let globalShow = this.state.globalHighscore.map((d, i) => {
       return (
         <div key={i}>
@@ -44,19 +61,13 @@ class Highscore extends React.Component {
         </div>
       )
     })
-    let globalUser = this.state.globalUser.map((d, i) => {
-      return (
-        <div key={i}>
-          {d.username}
-        </div>
-      )
-    })
     return (
       <div>
         <div className='global'>
           {globalShow}
         </div>
         <div className='user'>
+        {this.state.globalUser && this.state.globalUser.highscores[0].scores}
         </div>
       </div>
     )
