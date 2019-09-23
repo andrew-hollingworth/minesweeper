@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import { login, register, allUsers, addScores, updateHighScores } from './services/api-helper'
+import { login, register, addScores, showHighScore, users, deleteScores, updateHighScores } from './services/api-helper'
 import { genBoard, areaArnd } from './services/board-helper'
 import About from './components/About'
 import Footer from './components/Footer'
@@ -9,10 +8,10 @@ import Header from './components/Header'
 import Minesweeper from './components/Minesweeper'
 import UserModal from './components/UserModal'
 import GameModal from './components/GameModal'
-import Highscore from './components/Highscore'
+import ScoreViewer from './components/ScoreViewer'
 import './App.css';
 
-class App extends Component{
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,17 +24,19 @@ class App extends Component{
         email: '',
         password: '',
       },
-      currentUser: [],
+      currentUser: null,
       board: [],
       score: 0,
       timerStatus: false,
       isUserModal: true,
       isGameModal: true,
       win: null,
+      allHighScores: null,
+      allUsers: null,
     }
   }
 
-// ============USER FUNCTIONS =============== //
+  // ============USER FUNCTIONS =============== //
   handleLoginChange = (e) => {
     const { name, value } = e.target;
     this.setState((prevState) => ({
@@ -59,16 +60,16 @@ class App extends Component{
   submitSignUp = async (e) => {
     e.preventDefault();
     const userData = register(this.state.register);
-    await this.setState({ currentUser: userData})
+    await this.setState({ currentUser: userData })
   }
 
   submitLogIn = async (e) => {
     e.preventDefault();
     const userData = await login(this.state.login)
-    this.setState({ currentUser: userData})
+    this.setState({ currentUser: userData })
   }
 
-// ============MODAL FUNCTIONS=============== //
+  // ============MODAL FUNCTIONS=============== //
   userModalClick = () => {
     this.setState(prevState => ({
       isUserModal: !prevState.isUserModal
@@ -81,36 +82,63 @@ class App extends Component{
     }))
   }
 
+  // ============API QUERIES=================== //
+  // ========================================== //
+  getGlobalHighscores = async () => {
+    const globalScores = await showHighScore();
+    this.setState({
+      allHighScores: globalScores,
+    })
+  }
+  getGlobalUsers = async () => {
+    const globalUsers = await users();
+    this.setState({
+      allUsers: globalUsers,
+    })
+  }
+
+  deleteScore = async (id) => {
+    await deleteScores(id);
+    await this.updateRank();
+    await this.getGlobalHighscores();
+  }
+
+  updateRank = async () => {
+    await updateHighScores();
+  }
+
+
   // ============TIMER/SCORE FUNCTIONS=============== //
   // https://wsvincent.com/react-stopwatch/
   timerClick = () => {
     this.setState(state => {
-        if (state.timerStatus) {
-          clearInterval(this.timer);
-        } else {
-          const startTime = Date.now() - this.state.score;
-          this.timer = setInterval(() => {
-            this.setState({ score: Date.now() - startTime });
-          });
-        }
-        return { timerStatus: !state.status };
-      });
-    };
+      if (state.timerStatus) {
+        clearInterval(this.timer);
+      } else {
+        const startTime = Date.now() - this.state.score;
+        this.timer = setInterval(() => {
+          this.setState({ score: Date.now() - startTime });
+        });
+      }
+      return { timerStatus: !state.status };
+    });
+  };
   timerReset = () => {
     this.setState({ score: 0, timerStatus: false });
   };
 
-// ============BOX FUNCTIONS=============== //
-// https://stackoverflow.com/questions/38974744/how-to-detect-click-shift-ctrl-alt-in-reactjs-click-event
+  // ===========GAME LOGIC=============== //
+  // ==================================== //
+  // https://stackoverflow.com/questions/38974744/how-to-detect-click-shift-ctrl-alt-in-reactjs-click-event
 
   boxStateFunc = (props, boxProperty) => {
     this.setState(prevState => ({
       board: prevState.board.map((box, index) => index === props.index ? (
-          {
-            ...box,
+        {
+          ...box,
           [boxProperty]: !box[boxProperty]
-          }
-        ) : box)
+        }
+      ) : box)
     }))
   }
 
@@ -119,7 +147,7 @@ class App extends Component{
       board: prevState.board.map((box, index) => index === props.index ? (
         {
           ...box,
-        isRevealed: true
+          isRevealed: true
         }
       ) : box)
     }))
@@ -159,17 +187,17 @@ class App extends Component{
 
   scorePost = async (id, score) => {
     await addScores(id, score);
-    await updateHighScores();
   }
 
   boxClick = (props, e) => {
     if (this.state.timerStatus === false) {
-      this.timerClick();}
-    if ( e.shiftKey ) {
+      this.timerClick();
+    }
+    if (e.shiftKey) {
       this.boxStateFunc(props, `isFlag`)
     } else {
       if (props.board.isBomb) {
-        const bombs = this.state.board.filter( element => element.isBomb );
+        const bombs = this.state.board.filter(element => element.isBomb);
         bombs.forEach((bomb) => {
           this.boxStateFunc(bomb, `isRevealed`)
         })
@@ -179,15 +207,15 @@ class App extends Component{
         this.revealFunc(props.board.x, props.board.y, props.board, this.state.board)
       }
     }
-    let win = this.state.board.filter( element => element.isRevealed === false ).length
+    let win = this.state.board.filter(element => element.isRevealed === false).length
     if (win === 11) {
       this.timerClick();
       this.winState('win');
-      if (this.state.currentUser.length) {
+      if (this.state.currentUser) {
         this.scorePost(this.state.currentUser.id, this.state.score)
       }
     }
-    }
+  }
 
   buildBoard = async () => {
     const board = await genBoard(10, 9, 9);
@@ -195,39 +223,42 @@ class App extends Component{
   }
 
   resetGame = () => {
-      const board = genBoard(10, 9, 9);
-      this.setState({ board })
-      if (this.state.timerStatus) {
-        this.timerClick();
-      }
-      this.timerReset()
-      this.winState(null)
+    const board = genBoard(10, 9, 9);
+    this.setState({ board })
+    if (this.state.timerStatus) {
+      this.timerClick();
     }
+    this.timerReset()
+    this.winState(null)
+  }
 
   componentDidMount() {
     this.buildBoard();
+    this.getGlobalHighscores();
+    this.getGlobalUsers();
+    this.updateRank();
   }
 
   render() {
     return (
       <div className="App">
         <Header
-          userModalClick = {this.userModalClick}
-          gameModalClick = {this.gameModalClick}/>
+          userModalClick={this.userModalClick}
+          gameModalClick={this.gameModalClick} />
         <UserModal
-          userModalClick = {this.userModalClick}
-          isUserModal = {this.state.isUserModal}
+          userModalClick={this.userModalClick}
+          isUserModal={this.state.isUserModal}
           login={this.state.login}
           register={this.state.register}
           handleLoginChange={this.handleLoginChange}
           handleRegisterChange={this.handleRegisterChange}
           submitLogIn={this.submitLogIn}
-          submitSignUp={this.submitSignUp}/>
+          submitSignUp={this.submitSignUp} />
         <GameModal
-          gameModalClick = {this.gameModalClick}
-          isGameModal = {this.state.isGameModal}/>
+          gameModalClick={this.gameModalClick}
+          isGameModal={this.state.isGameModal} />
         <Switch>
-          <Route path='/about' component={ About }/>
+          <Route path='/about' component={About} />
           <Route path='/minesweeper' render={() =>
             <Minesweeper
               board={this.state.board}
@@ -235,10 +266,14 @@ class App extends Component{
               score={this.state.score}
               timerClick={this.timerClick}
               win={this.state.win}
-              resetGame={this.resetGame}/>}/>
+              resetGame={this.resetGame} />} />
         </Switch>
-        <Highscore
-          currentUser={this.state.currentUser}/>
+        <ScoreViewer
+          currentUser={this.state.currentUser}
+          allHighScores={this.state.allHighScores}
+          allUsers={this.state.allUsers}
+          deleteScore={this.deleteScore}
+          updateRank={this.updateRank} />
         <Footer />
       </div>
     );

@@ -83,13 +83,13 @@ highscoreController.post('/users/:id', async (req, res) => {
   }
 });
 
-highscoreController.delete('/scores/:scoreid', async (req, res) => {
+highscoreController.delete('/score/:id', async (req, res) => {
   try {
-    const scores = await Highscore.findByPk(req.params.scoreid);
-    await scores.destroy();
-    res.json(scores);
+    const score = await Highscore.findByPk(req.params.id);
+    await score.destroy();
+    res.json(score);
   } catch (e) {
-    console.log(e);
+    res.status(500).send(e.message);
   }
 });
 

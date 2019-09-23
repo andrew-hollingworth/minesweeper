@@ -1,5 +1,5 @@
 import React from 'react'
-import { showHighScore, updateHighScores, userScores, showUserScores, addScores, deleteScores, recentScores, users } from '../services/api-helper'
+import { showHighScore, userScores, users } from '../services/api-helper'
 
 class Highscore extends React.Component {
   constructor(props) {
@@ -17,8 +17,12 @@ class Highscore extends React.Component {
 
   async componentDidMount() {
     let gHighscore = await showHighScore();
-    let gUser = await userScores(this.props.currentUser.username);
     let usersInfo = await users();
+    let gUser = async () => {
+      if (this.props.currentUser.Username) {
+        gUser = await userScores(this.props.currentUser.username);
+      }
+    }
     // let uHighscore = await showUserScores(props.username);*
     // let uDelete = await deleteScores();*
     // let uRecent = await recentScores();
@@ -35,12 +39,13 @@ class Highscore extends React.Component {
   async componentWillUpdate(prevProps) {
     if (prevProps.currentUser !== this.props.currentUser) {
       let gHighscore = await showHighScore();
+      console.log('this is ghighscore', gHighscore);
       let gUser = await userScores(this.props.currentUser.username);
       let usersInfo = await users()
       // let uHighscore = await showUserScores(props.username);*
       // let uDelete = await deleteScores();*
       // let uRecent = await recentScores();
-      this.setState({
+      await this.setState({
         globalHighscore: gHighscore,
         globalUser: gUser,
         user: usersInfo,
@@ -54,7 +59,7 @@ class Highscore extends React.Component {
 
   render() {
     let globalShow = this.state.globalHighscore.map((d, i) => {
-      let thisUser = this.state.user.filter( user => user.id === d.userId)
+      let thisUser = this.state.user.filter(user => user.id === d.userId)
       return (
         <React.Fragment key={i}>
           <p className='scoreboard-rank'>{d.rank}</p>
@@ -70,7 +75,7 @@ class Highscore extends React.Component {
           {globalShow}
         </div>
         <div className='user'>
-        {this.state.globalUser && this.state.globalUser.highscores.scores}
+          {this.state.globalUser && this.state.globalUser.highscores.scores}
 
         </div>
       </div>

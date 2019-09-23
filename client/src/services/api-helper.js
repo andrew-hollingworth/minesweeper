@@ -8,7 +8,6 @@ const api = axios.create({
 
 export const register = async (formData) => {
   const resp = await api.post('/auth/register', formData);
-  debugger;
   localStorage.setItem('authToken', resp.data.token);
   api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
 
@@ -17,7 +16,6 @@ export const register = async (formData) => {
 
 export const login = async (formData) => {
   const resp = await api.post('/auth/login', formData);
-  debugger;
   localStorage.setItem('authToken', resp.data.token);
   api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
   return resp.data.user;
@@ -49,17 +47,22 @@ export const showUserScores = async (userid) => {
 };
 
 export const addScores = async (id, scoreData) => {
-  const resp = await axios.post(`${BASE_URL}/highscores/users/${id}`, {scores: scoreData});
+  const resp = await axios.post(`${BASE_URL}/highscores/users/${id}`, { scores: scoreData });
   return resp.data;
 };
 
 export const deleteScores = async (scoreid) => {
-  const resp = await axios.delete(`${BASE_URL}/scores/${scoreid}`);
+  const resp = await axios.delete(`${BASE_URL}/highscores/score/${scoreid}`);
   return resp.data;
 };
 
 
 export const recentScores = async (userid) => {
   const resp = await axios.get(`${BASE_URL}/users/${userid}/times`);
+  return resp.data;
+};
+
+export const getAllUsers = async () => {
+  const resp = await axios.get(`${BASE_URL}/users`);
   return resp.data;
 };

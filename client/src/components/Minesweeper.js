@@ -2,13 +2,13 @@ import React from 'react'
 import Box from './Box'
 import Timer from './Timer'
 
-function Minesweeper (props) {
+function Minesweeper(props) {
   return (
     <div className='game-container'>
       <h1 className='henny game-title'>Munch-a-Cookie</h1>
       <h4 className='henny instructions'>Click a cookie to munch it, but watch out for poison cookies!</h4>
       <h4 className='henny instructions'>It's like Minesweeper, except more delicious.</h4>
-      <h4 className='henny instructions'>Use CTRL+click to mark poison cookies.</h4>
+      <h4 className='henny instructions'>Use Shift+click to mark poison cookies.</h4>
       <h4 className='henny instructions'>The goal is to get the lowest score possible!</h4>
       <h4 className='henny instructions'>Like golf. Sort of.</h4>
       <Timer
@@ -16,7 +16,7 @@ function Minesweeper (props) {
         timerClick={props.timerClick}
         timerReset={props.timerReset}
         win={props.win}
-        resetGame={props.resetGame}/>
+        resetGame={props.resetGame} />
       <div className='board' >
         {props.board.map((board, i) => {
           return (

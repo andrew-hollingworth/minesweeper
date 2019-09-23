@@ -22,9 +22,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mfhan/cityscaper/issues"
+    "url": "https://github.com/andrew-hollingworth/minesweeper/issues"
   },
-  "homepage": "https://github.com/mfhan/cityscaper#readme",
+  "homepage": "https://github.com/andrew-hollingworth/minesweeper#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
