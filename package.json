@@ -4,12 +4,17 @@
   "description": "",
   "main": "server.js",
   "engines": {
+<<<<<<< HEAD
     "node" : "12.6.0"
+=======
+    "node": "12.6.0"
+>>>>>>> 63fce4c69b463cd3c56ae2c013e77dba1628d253
   },
   "scripts": {
     "heroku-postbuild": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
+    "heroku-postbuild": "npm run build",
     "dev": "nodemon server.js",
     "db:create": "dropdb --if-exists -e arcade_db && createdb -e arcade_db",
     "db:reset": "node resetDb.js",

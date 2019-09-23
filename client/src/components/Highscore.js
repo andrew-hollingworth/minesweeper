@@ -68,6 +68,7 @@ class Highscore extends React.Component {
         </React.Fragment>
       )
     })
+
     return (
       <div className='scoreboard'>
         <div className='global'>
