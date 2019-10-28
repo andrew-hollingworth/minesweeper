@@ -5,12 +5,12 @@ import Timer from './Timer'
 function Minesweeper(props) {
   return (
     <div className='game-container'>
-      <h1 className='henny game-title'>Munch-a-Cookie</h1>
-      <h4 className='henny instructions'>Click a cookie to munch it, but watch out for poison cookies!</h4>
-      <h4 className='henny instructions'>It's like Minesweeper, except more delicious.</h4>
-      <h4 className='henny instructions'>Use Shift+click to mark poison cookies.</h4>
-      <h4 className='henny instructions'>The goal is to get the lowest score possible!</h4>
-      <h4 className='henny instructions'>Like golf. Sort of.</h4>
+      <h1 className='raleway game-title'>Munch-a-Cookie</h1>
+      <h4 className='raleway instructions'>Click a cookie to munch it, but watch out for poison cookies!</h4>
+      <h4 className='raleway instructions'>It's like Minesweeper, except more delicious.</h4>
+      <h4 className='raleway instructions'>Use Shift+click to mark poison cookies.</h4>
+      <h4 className='raleway instructions'>The goal is to get the lowest score possible!</h4>
+      <h4 className='raleway instructions'>Like golf. Sort of.</h4>
       <Timer
         score={props.score}
         timerClick={props.timerClick}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import { login, register, addScores, showHighScore, users, deleteScores, updateHighScores } from './services/api-helper'
 import { genBoard, areaArnd } from './services/board-helper'
 import About from './components/About'
@@ -267,13 +267,15 @@ class App extends Component {
               timerClick={this.timerClick}
               win={this.state.win}
               resetGame={this.resetGame} />} />
+          <Route path='/highscores' render={() =>
+            <ScoreViewer
+              currentUser={this.state.currentUser}
+              allHighScores={this.state.allHighScores}
+              allUsers={this.state.allUsers}
+              deleteScore={this.deleteScore}
+              updateRank={this.updateRank} />} />
         </Switch>
-        <ScoreViewer
-          currentUser={this.state.currentUser}
-          allHighScores={this.state.allHighScores}
-          allUsers={this.state.allUsers}
-          deleteScore={this.deleteScore}
-          updateRank={this.updateRank} />
+        <button><Link className='minesweeper' to='/minesweeper'>Play Minesweeper!</Link></button>
         <Footer />
       </div>
     );

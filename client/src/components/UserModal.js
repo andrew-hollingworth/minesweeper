@@ -5,9 +5,9 @@ import './usermodal.css'
 function UserModal(props) {
   return (
     <div className={`user-box ${props.isUserModal && "showing-modal"}`}>
-      {/*<button className='close' onClick = {props.userModalClick}>Close</button>*/}
+      <button className='close' onClick={props.userModalClick}>X</button>
       <Signup
-      {...props}
+        {...props}
       />
     </div>
   )

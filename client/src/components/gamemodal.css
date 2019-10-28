@@ -3,14 +3,38 @@
   text-align: center;
   border: 1px solid grey;
   border-radius: 1em;
-  display: grid;
   position: absolute;
   top: 9em;
-  width: 90%;
-  height: 35%;
+  right: 10%;
+  width: 30%;
+  height: 30%;
   z-index: 2;
 }
 
 .showing-modal {
   display: none;
+}
+
+.close {
+  top: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  font-size: 1.5em;
+  position: absolute;
+}
+
+.minesweeper {
+  color: black;
+  font-size: 2em;
+  margin: 2em auto;
+  width: 40%;
+  height: 20%;
+}
+.highscores {
+  color: black;
+  font-size: 2em;
+  margin: 1em auto;
+  width: 40%;
+  height: 20%;
 }

@@ -23,16 +23,10 @@ class Highscore extends React.Component {
         gUser = await userScores(this.props.currentUser.username);
       }
     }
-    // let uHighscore = await showUserScores(props.username);*
-    // let uDelete = await deleteScores();*
-    // let uRecent = await recentScores();
     this.setState({
       globalHighscore: gHighscore,
       globalUser: gUser,
       user: usersInfo,
-      // userScores: uHighscore,
-      // userDelete: uDelete,
-      // userRecent: uRecent,
     })
   }
 
@@ -42,17 +36,10 @@ class Highscore extends React.Component {
       console.log('this is ghighscore', gHighscore);
       let gUser = await userScores(this.props.currentUser.username);
       let usersInfo = await users()
-      // let uHighscore = await showUserScores(props.username);*
-      // let uDelete = await deleteScores();*
-      // let uRecent = await recentScores();
       await this.setState({
         globalHighscore: gHighscore,
         globalUser: gUser,
         user: usersInfo,
-        // userScores: uHighscore,
-        // userCreate: uAdd,
-        // userDelete: uDelete,
-        // userRecent: uRecent,
       })
     }
   }
